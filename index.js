@@ -8,6 +8,7 @@ app.use(cors())
 
 const images = []
 const names = []
+const links = []
 const blogs = []
 async function scrapeData() {
     
@@ -23,13 +24,21 @@ async function scrapeData() {
         //console.log(el.children[0].data);
         names.push(el.children[0].data);
     })
+    const anchor = $("article .blog-entry-inner .thumbnail a")
+    anchor.each((index,el)=>{
+        var data = el.attribs.href
+        data = data.split('/')
+        data = data[3]
+        links.push(data)
+    })
     while(blogs.length >0){
         blogs.pop()
     }
-    for (let index = 0; index < names.length; index++) {
+    for (let index = 0; index < 24; index++) {
         const movie = {
             'name': names[index],
-            'img': images[index]
+            'img': images[index],
+            'link': links[index]
         }
         
         blogs.push(movie);
